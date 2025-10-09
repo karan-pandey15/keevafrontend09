@@ -1,0 +1,20 @@
+@media screen and (max-width:1000px) {
+    .product-page-main_div {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product_page_img_main_div {
+        width: 100% !important;
+    }
+
+    /* .product_main_image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } */
+
+    .product_page_text_main_div {
+        width: 100% !important;
+    }
+}
