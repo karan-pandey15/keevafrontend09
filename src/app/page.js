@@ -6,7 +6,7 @@ import Footer from "./components/footer/page";
 import Navbar from "./components/navbar/page";
 import "./globals.css"
 import Profile from "./components/profile/page";
-import RistalMica from "./mica/page";
+import RistalMica from "./ristalmica/page";
 import SignUp from "./components/signup/page";
 import AdminProfile from './adminprofile/page'; 
 
@@ -34,7 +34,7 @@ export default function Home() {
       <Navbar />
       <Banner1 />
       <Category />
-      <RistalMica />  
+      {/* <RistalMica />   */}
       <Footer />
     </main>
   );
