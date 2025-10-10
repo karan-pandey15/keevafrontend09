@@ -4,10 +4,7 @@ import Category from "./components/Category/page";
 import Banner1 from "./components/homepage/page";
 import Footer from "./components/footer/page";
 import Navbar from "./components/navbar/page";
-import "./globals.css"
-import Profile from "./components/profile/page";
-import RistalMica from "./ristalmica/page";
-import SignUp from "./components/signup/page";
+import "./globals.css" 
 import AdminProfile from './adminprofile/page'; 
 
 export default function Home() {
@@ -33,8 +30,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Banner1 />
-      <Category />
-      {/* <RistalMica />   */}
+      <Category /> 
       <Footer />
     </main>
   );
