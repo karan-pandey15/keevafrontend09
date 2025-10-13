@@ -41,16 +41,16 @@ export default function AddProductPage() {
   const [result, setResult] = useState(null);
   const [previewUrls, setPreviewUrls] = useState([]);
   const [toast, setToast] = useState(null);
+const categories = [
+  "Ristal 0.8mm",
+  "Ristal Door Skin",
+  "Ristal 1mm",
+  "Adalam",
+  "Membrane Door",
+  "Laminate Door",
+  "Fevicol",
+];
 
-  const categories = [
-    "Ristal8mm",
-    "RistalDoor",
-    "Ristal1mm",
-    "Adalon",
-    "MembareDoor",
-    "LaminateDoor",
-    "Door",
-  ];
 
   const showToast = (message, type) => {
     setToast({ message, type });

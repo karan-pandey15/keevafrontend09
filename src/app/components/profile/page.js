@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Gift, ArrowRight } from "lucide-react";
 import Navbar from "../navbar/page"; 
 import axiosInstance from "@/app/helper/axiosInstance";
+import Footer from "../footer/page";
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -62,9 +63,9 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen">
-        <div className="max-w-md mx-auto bg-white min-h-screen shadow-xl">
-          <div className="p-4 space-y-6 mt-12">
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-md mx-auto bg-white min-h-screen shadow-xl mt-16 rounded-3xl">
+          <div className="p-4 space-y-6 border border-gray-200 rounded-3xl">
             {/* User Info */}
             <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-4 border border-purple-100">
               <div className="flex items-center space-x-3">
@@ -154,6 +155,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

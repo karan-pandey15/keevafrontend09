@@ -6,6 +6,7 @@ import Footer from "./components/footer/page";
 import Navbar from "./components/navbar/page";
 import "./globals.css" 
 import AdminProfile from './adminprofile/page'; 
+import ContactPage from './components/contact/page';
 
 export default function Home() {
   const [userRole, setUserRole] = useState(null);
@@ -30,7 +31,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Banner1 />
-      <Category /> 
+      <Category />  
       <Footer />
     </main>
   );

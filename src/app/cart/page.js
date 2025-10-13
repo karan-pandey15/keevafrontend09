@@ -25,6 +25,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import Footer from "../components/footer/page";
 
 export default function CartPage() {
   const items = useSelector(selectCartItems);
@@ -361,6 +362,8 @@ export default function CartPage() {
           </div>
         </div>
       )}
+
+      <Footer />
     </>
   );
 }

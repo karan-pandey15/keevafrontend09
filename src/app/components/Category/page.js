@@ -1,118 +1,4 @@
-// import React from "react";
-// import Image from "next/image";   
-// import cat1 from "../../../../public/images/category1.png"
-// import cat2 from "../../../../public/images/doorskin.png"
-// import cat3 from "../../../../public/images/ristal1mm.png"
-// import cat4 from "../../../../public/images/adalon.png" 
-// import cat6 from "../../../../public/images/laminatedoor.png"
-// import cat7 from "../../../../public/images/doorskin.png"
-
-
-
-// import Link from "next/link";
-// import "./Categofystyle.css";  
-// const Category = () => {
-//   return (
-//     <>
-//       <section style={{ backgroundColor: "#fff"  }}>
-//       <h1 className="four_heading_div">Watch Our Collection</h1>
-//       <div className="four_div_container">
-//         <div className="round_container">
-//           <Link href="/"> 
-//               <Image
-//                 src={cat1}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Ristal Lan 0.8mm</p>
-   
-//           </Link>
-//         </div>
-
-//         <div className="round_container">
-//           <Link href="/">
-        
-//               <Image
-//                 src={cat2}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Ristal Door Skin</p>
-          
-//           </Link>
-//         </div>
-
-//         <div className="round_container">
-//           <Link href="/">
-      
-//               <Image
-//                 src={cat3}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Ristal 1mm</p>
-    
-//           </Link>
-//         </div>
-
-//         <div className="round_container">
-//           <Link href="/">
-        
-//               <Image
-//                 src={cat4}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Adalon</p>
-    
-//           </Link>
-//         </div> 
-//          <div className="round_container">
-//           <Link href="/">
-        
-//               <Image
-//                 src={cat7}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Membare Door</p>
-    
-//           </Link>
-//         </div> 
-//          <div className="round_container">
-//           <Link href="/">
-        
-//               <Image
-//                 src={cat6}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Laminate Door</p>
-    
-//           </Link>
-//         </div> 
-
-//          <div className="round_container">
-//           <Link href="/">
-        
-//               <Image
-//                 src={cat7}
-//                 className="round_contaner_img"
-//                 alt="img"
-//               />
-//               <p className="txt_container">Door</p>
-    
-//           </Link>
-//         </div> 
  
-//       </div> 
-//     </section>  
-//     </>
-//   );
-// };
-
-// export default Category;
-
 
 
  
@@ -132,13 +18,13 @@ import cat7 from "../../../../public/images/doorskin.png";
 import "./Categofystyle.css";
 
 const categories = [
-  { name: "Ristal8mm", image: cat1 },
-  { name: "RistalDoor", image: cat2 },
-  { name: "Ristal1mm", image: cat3 },
-  { name: "Adalon", image: cat4 },
-  { name: "MembareDoor", image: cat7 },
-  { name: "LaminateDoor", image: cat6 },
-  { name: "Door", image: cat7 },
+  { name: "Ristal 0.8mm", image: cat1 },
+  { name: "Ristal Door Skin", image: cat2 },
+  { name: "Ristal 1mm", image: cat3 },
+  { name: "Adalam", image: cat4 },
+  { name: "Membrane Door", image: cat7 },
+  { name: "Laminate Door", image: cat6 },
+  { name: "Fevicol", image: cat7 },
 ];
 
 const Category = () => {
