@@ -108,8 +108,9 @@ export default function AdminProfile() {
         success: { duration: 3000 },
         error: { duration: 4000 },
       }} />
+      <div className="h-20 w-100" ></div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 ">
         {/* Header Section */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">

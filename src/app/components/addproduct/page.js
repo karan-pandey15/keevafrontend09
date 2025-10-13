@@ -145,9 +145,11 @@ const categories = [
         />
       )}
 
-      <Navbar />
+      <Navbar /> 
 
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+        
+        <div className="h-20 w-100" ></div>
         <div className="container mx-auto px-4 py-8 lg:py-12">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
