@@ -6,40 +6,12 @@ import Navbar from "../navbar/page";
 
 const Toast = ({ message, type, onClose }) => {
   const bgColor = type === "success" ? "bg-green-500" : "bg-red-500";
-  const icon =
-    type === "success" ? (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path
-          fillRule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-          clipRule="evenodd"
-        />
-      </svg>
-    ) : (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path
-          fillRule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-          clipRule="evenodd"
-        />
-      </svg>
-    );
-
   return (
     <div
       className={`fixed top-4 left-4 z-50 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in max-w-md`}
     >
-      {icon}
       <span className="font-medium">{message}</span>
-      <button onClick={onClose} className="ml-4 hover:opacity-80">
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path
-            fillRule="evenodd"
-            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+      <button onClick={onClose} className="ml-4 hover:opacity-80">✖</button>
     </div>
   );
 };
@@ -53,6 +25,7 @@ export default function AddProductPage() {
   });
   const [images, setImages] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
+  const [uploadedUrls, setUploadedUrls] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
@@ -69,7 +42,7 @@ export default function AddProductPage() {
 
   const showToast = (message, type) => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 5000);
+    setTimeout(() => setToast(null), 4000);
   };
 
   const handleChange = (e) => {
@@ -79,7 +52,6 @@ export default function AddProductPage() {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
-
     if (files.length > 5) {
       showToast("You can upload a maximum of 5 images!", "error");
       return;
@@ -111,16 +83,16 @@ export default function AddProductPage() {
       setUploading(true);
 
       const res = await axiosInstance.post("/sunmica", data);
+      const uploaded = res.data?.data?.images || [];
+
+      setUploadedUrls(uploaded); // ✅ store backend image URLs
       showToast("✅ Uploaded successfully!", "success");
 
+      // reset form
       setFormData({ name: "", points: "", description: "", category: "" });
       setImages([]);
       setPreviewUrls([]);
-
-      // reset file input manually
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
       console.error(err);
       showToast("❌ Upload failed! Please try again.", "error");
@@ -136,24 +108,18 @@ export default function AddProductPage() {
           from { transform: translateX(-100%); opacity: 0; }
           to { transform: translateX(0); opacity: 1; }
         }
-        .animate-slide-in {
-          animation: slide-in 0.3s ease-out;
-        }
+        .animate-slide-in { animation: slide-in 0.3s ease-out; }
       `}</style>
 
       {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
+        <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />
       )}
 
       <Navbar />
 
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-        <div className="h-20 w-100"></div>
-        <div className="container mx-auto px-4 py-8 lg:py-12">
+        <div className="h-20"></div>
+        <div className="container mx-auto px-4 py-8">
           <div className="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl">
             <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Upload Product
@@ -206,7 +172,6 @@ export default function AddProductPage() {
 
               <input
                 ref={fileInputRef}
-                key={images.length} // force re-render
                 type="file"
                 multiple
                 accept="image/*;capture=camera"
@@ -214,6 +179,7 @@ export default function AddProductPage() {
                 className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl"
               />
 
+              {/* Preview selected images */}
               {previewUrls.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {previewUrls.map((url, idx) => (
@@ -224,6 +190,25 @@ export default function AddProductPage() {
                       className="w-full h-32 object-cover rounded-lg"
                     />
                   ))}
+                </div>
+              )}
+
+              {/* Show uploaded images from backend */}
+              {uploadedUrls.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-lg font-semibold mb-2 text-gray-700">
+                    Uploaded Images:
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {uploadedUrls.map((url, idx) => (
+                      <img
+                        key={idx}
+                        src={url}
+                        alt={`uploaded-${idx}`}
+                        className="w-full h-32 object-cover rounded-lg border"
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
 
