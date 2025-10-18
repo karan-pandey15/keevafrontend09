@@ -1,8 +1,9 @@
 "use client";
 
-import axiosInstance from "@/app/helper/axiosInstance";
 import { useState, useRef } from "react";
 import Navbar from "../navbar/page";
+import axios from "axios";
+import imageCompression from "browser-image-compression";
 
 export default function AddSunmica() {
   const [formData, setFormData] = useState({
@@ -30,17 +31,26 @@ export default function AddSunmica() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    if (selectedFiles.length === 0) return;
-
-    if (selectedFiles.length > 5) {
-      alert("You can upload a maximum of 5 images");
+  const handleFileChange = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 5) {
+      alert("You can upload maximum 5 images");
       return;
     }
 
-    setImages(selectedFiles);
-    setPreviewUrls(selectedFiles.map((file) => URL.createObjectURL(file)));
+    // Compress images for mobile
+    const compressedFiles = [];
+    for (const file of files) {
+      const compressed = await imageCompression(file, {
+        maxSizeMB: 2,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      });
+      compressedFiles.push(compressed);
+    }
+
+    setImages(compressedFiles);
+    setPreviewUrls(compressedFiles.map((f) => URL.createObjectURL(f)));
   };
 
   const handleSubmit = async (e) => {
@@ -61,19 +71,16 @@ export default function AddSunmica() {
     data.append("points", formData.points);
     data.append("description", formData.description);
     data.append("category", formData.category);
-
-    // ✅ append each file individually (important)
     images.forEach((file) => data.append("images", file));
 
     try {
       setUploading(true);
-
-      const res = await axiosInstance.post("/sunmica", data, {
+      const res = await axios.post("/api/sunmica", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (res.data.success) {
-        alert("✅ Product uploaded successfully!");
+        alert("✅ Upload successful!");
         setFormData({ name: "", points: "", description: "", category: "" });
         setImages([]);
         setPreviewUrls([]);
@@ -81,8 +88,8 @@ export default function AddSunmica() {
       } else {
         alert("❌ Upload failed");
       }
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch (err) {
+      console.error("Upload error:", err);
       alert("❌ Something went wrong during upload");
     } finally {
       setUploading(false);
@@ -148,8 +155,8 @@ export default function AddSunmica() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*;capture=camera"
             multiple
+            accept="image/*;capture=camera"
             onChange={handleFileChange}
             className="w-full border-dashed border-2 rounded-lg p-3 cursor-pointer"
           />
@@ -171,9 +178,7 @@ export default function AddSunmica() {
             type="submit"
             disabled={uploading}
             className={`w-full py-3 rounded-xl text-white font-semibold ${
-              uploading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
+              uploading ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >
             {uploading ? "Uploading..." : "Upload Product"}
