@@ -7,6 +7,8 @@ import Navbar from "./components/navbar/page";
 import "./globals.css" 
 import AdminProfile from './adminprofile/page'; 
 import ContactPage from './components/contact/page';
+import ProductCraousel from './components/productcraousel/page';
+import AllProductDisplay from './allproductdisplay/page';
 
 export default function Home() {
   const [userRole, setUserRole] = useState(null);
@@ -32,6 +34,8 @@ export default function Home() {
       <Navbar />
       <Banner1 />
       <Category />  
+          <ProductCraousel />
+      <AllProductDisplay /> 
       <Footer />
     </main>
   );

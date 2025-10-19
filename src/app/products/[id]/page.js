@@ -10,6 +10,7 @@ import { addToCart } from "@/app/store/cartSlice";
 import Navbar from "@/app/components/navbar/page";
 import axiosInstance from "@/app/helper/axiosInstance";
 import toast, { Toaster } from "react-hot-toast";
+import Footer from "@/app/components/footer/page";
 
 const BACKEND_URL = "https://api.digiente.com"; 
 
@@ -201,6 +202,8 @@ const ProductDetail = () => {
           </div>
         </div>
       </main>
+      <div className="h-20 w-100" ></div>
+      <Footer />
     </div>
   );
 };

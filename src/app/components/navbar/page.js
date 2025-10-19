@@ -64,7 +64,7 @@ const Navbar = () => {
           {/* Logo */}
           <div>
             <Link href="/" className="font-bold text-2xl text-[#047F05]">
-              KEEVA
+            ममता हार्डवेयर
             </Link>
           </div>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
                 <li key={item.name} className={item.name === "Shop" ? "relative" : ""}>
                   <Link
                     href={item.href}
-                    className="flex items-center mx-2 lg:mx-5 uppercase text-[14px] lg:text-base tracking-[.15em] font-medium hover:text-[#047F05] transition-colors"
+                    className="flex items-center mx-2 lg:mx-5 uppercase text-[14px] text-[#047F05] lg:text-base tracking-[.15em] font-medium hover:text-[#047F05] transition-colors"
                   >
                     {item.name}
                     {item.name === "Shop" && (

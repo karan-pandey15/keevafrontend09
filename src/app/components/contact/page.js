@@ -98,7 +98,7 @@ export default function ContactPage() {
             Contact Us
           </h2>
           <p style={{ marginBottom: "30px" }}>
-            Have questions about our furniture? Reach out to us — we’d love to help!
+            Have questions about our products or services? Reach out to us — we’d love to help!
           </p>
 
           <div>

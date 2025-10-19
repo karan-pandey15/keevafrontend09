@@ -8,12 +8,14 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import cat1 from "../../../../public/images/category1.png";
-import cat2 from "../../../../public/images/doorskin.png";
-import cat3 from "../../../../public/images/ristal1mm.png";
-import cat4 from "../../../../public/images/adalon.png";
-import cat6 from "../../../../public/images/laminatedoor.png";
-import cat7 from "../../../../public/images/doorskin.png";
+import cat1 from "../../../../public/images/ristalcat.png";
+import cat2 from "../../../../public/images/ristaldoor.png";
+import cat3 from "../../../../public/images/ristal1mmm.png";
+import cat4 from "../../../../public/images/adaloncat.png";
+import cat6 from "../../../../public/images/membrandedoor.png";
+import cat7 from "../../../../public/images/laminatecat.png";
+
+import cat8 from "../../../../public/images/fevicolcate.jpeg";
 
 import "./Categofystyle.css";
 
@@ -22,15 +24,15 @@ const categories = [
   { name: "Ristal Door Skin", image: cat2 },
   { name: "Ristal 1mm", image: cat3 },
   { name: "Adalam", image: cat4 },
-  { name: "Membrane Door", image: cat7 },
-  { name: "Laminate Door", image: cat6 },
-  { name: "Fevicol", image: cat7 },
+  { name: "Membrane Door", image: cat6 },
+  { name: "Laminate Door", image: cat7 },
+  { name: "Fevicol", image: cat8 },
 ];
 
 const Category = () => {
   return (
     <section style={{ backgroundColor: "#fff" }}>
-      <h1 className="four_heading_div">Watch Our Collection</h1>
+      <h1 className="text-[#047F05] four_heading_div">Watch Our Collection</h1>
       <div className="four_div_container">
         {categories.map((cat) => (
           <div key={cat.name} className="round_container">
