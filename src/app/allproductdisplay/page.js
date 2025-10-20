@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, updateQuantity } from "../store/cartSlice";
+import { addToCart, updateQuantity, toggleFavorite, selectFavoriteIds } from "../store/cartSlice";
 import { useToast } from "../components/Toast";
 import axiosInstance from "../helper/axiosInstance"; 
 import { Search, X, Heart, ShoppingCart } from "lucide-react"; 
@@ -15,6 +15,7 @@ const AllProductDisplay = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const cartItems = useSelector((state) => state.cart.items); 
+  const favoriteIds = useSelector(selectFavoriteIds);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState({});
@@ -78,6 +79,7 @@ const AllProductDisplay = () => {
     setLoading((prev) => ({ ...prev, [productId]: true }));
     try {
       const cartItem = getCartItem(productId);
+      const imageUrl = `${BACKEND_URL}/${product.images?.[0]?.replace(/\\/g, "/")}`;
       if (cartItem) {
         dispatch(
           updateQuantity({
@@ -92,7 +94,7 @@ const AllProductDisplay = () => {
             id: product._id,
             name: product.name,
             description: product.description,
-            image: `${BACKEND_URL}/${product.images?.[0]?.replace(/\\/g, "/")}`,
+            image: imageUrl,
             points: product.points,
             quantity: 1,
             category: product.category,
@@ -131,6 +133,32 @@ const AllProductDisplay = () => {
         })
       );
       toast.success(`Quantity decreased to ${cartItem.quantity - 1}`);
+    }
+  };
+
+  const handleToggleFavorite = (product, e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    const productId = product._id;
+    const isFavorite = favoriteIds.includes(productId);
+    const imageUrl = `${BACKEND_URL}/${product.images?.[0]?.replace(/\\/g, "/")}`;
+
+    dispatch(
+      toggleFavorite({
+        id: productId,
+        name: product.name,
+        description: product.description,
+        image: imageUrl,
+        points: product.points,
+        category: product.category,
+      })
+    );
+
+    if (isFavorite) {
+      toast.success("Removed from favorites");
+    } else {
+      toast.success("Added to favorites ❤️");
     }
   };
 
@@ -174,8 +202,17 @@ const AllProductDisplay = () => {
                   />
                   
                   {/* Wishlist Icon */}
-                  <button className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all z-10">
-                    <Heart className="h-5 w-5 text-gray-700" />
+                  <button
+                    onClick={(e) => handleToggleFavorite(product, e)}
+                    className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all z-10"
+                  >
+                    <Heart
+                      className={`h-5 w-5 ${
+                        favoriteIds.includes(productId)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-700"
+                      }`}
+                    />
                   </button>
 
                   {/* Quick Buy Button - Shows on Hover */}
@@ -208,6 +245,12 @@ const AllProductDisplay = () => {
                   )}
 
                   {/* In Cart Overlay */}
+                  {favoriteIds.includes(productId) && (
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md flex items-center gap-1">
+                      <Heart className="w-3 h-3 fill-current" /> Loved
+                    </div>
+                  )}
+
                   {isInCart && isHovered && (
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
                       <div className="bg-white rounded-md p-3">
@@ -220,6 +263,7 @@ const AllProductDisplay = () => {
                                 handleDecrement(productId);
                               }}
                               className="w-7 h-7 flex items-center justify-center bg-gray-200 text-gray-900 rounded hover:bg-gray-300 transition-all font-bold"
+                              aria-label="Decrease quantity"
                             >
                               −
                             </button>

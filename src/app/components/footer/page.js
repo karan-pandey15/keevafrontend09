@@ -1,5 +1,5 @@
 "use client"
-import { Home, ShoppingBag, User, Facebook, Twitter, Instagram, Linkedin, Grid, Info } from 'lucide-react';
+import { Home, Heart , User, Facebook, Twitter, Instagram, Linkedin, Grid, Info } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -28,15 +28,18 @@ const Footer = () => {
             <span className="text-xs mt-1">Home</span>
           </button>
 
-          {/* Shop Button */}
+          {/*  favorite Button */}
           <button
-            onClick={() => handleNavigation('/cart')}
-            className={`text-[#047F05] flex flex-col items-center justify-center w-full h-full transition-colors ${
-              activeTab === '/shop' ? 'text-[#047F05]' : 'text-[#047F05]'
+            onClick={() => handleNavigation('/components/favrorite')}
+            className={`flex flex-col items-center justify-center w-full h-full transition-colors ${
+              activeTab === '/components/favrorite' ? 'text-red-500' : 'text-[#047F05]'
             }`}
           >
-            <ShoppingBag size={22} />
-            <span className="text-xs mt-1">Shop</span>
+            <Heart
+              size={22}
+              className={activeTab === '/components/favrorite' ? 'fill-red-500' : ''}
+            />
+            <span className="text-xs mt-1">Favorites</span>
           </button>
 
           {/* Categories Button */}

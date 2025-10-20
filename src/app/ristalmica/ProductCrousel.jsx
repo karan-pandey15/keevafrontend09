@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, updateQuantity } from "../store/cartSlice";
+import { addToCart, updateQuantity, toggleFavorite, selectFavoriteIds } from "../store/cartSlice";
 import { useToast } from "../components/Toast";
 import { ChevronLeft, ChevronRight, Heart, Share2, ShoppingCart } from "lucide-react";
 
@@ -15,9 +15,9 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
   const toast = useToast();
   const scrollContainerRef = useRef(null);
   const cartItems = useSelector((state) => state.cart.items);
+  const favoriteIds = useSelector(selectFavoriteIds);
 
   const [loading, setLoading] = useState({});
-  const [favorites, setFavorites] = useState(new Set());
 
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
@@ -30,19 +30,45 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
   const getCartItem = (productId) =>
     cartItems.find((item) => item.id === productId);
 
-  const toggleFavorite = (productId, e) => {
+  const handleToggleFavorite = (product, e) => {
     e.stopPropagation();
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(productId)) {
-        newFavorites.delete(productId);
-        toast.success("Removed from favorites");
-      } else {
-        newFavorites.add(productId);
-        toast.success("Added to favorites ❤️");
-      }
-      return newFavorites;
-    });
+    const productId = product._id;
+    const isAlreadyFavorite = favoriteIds.includes(productId);
+
+    const imageUrl = `${BACKEND_URL}/${product.images?.[0]?.replace(/\\/g, "/")}`;
+    dispatch(
+      toggleFavorite({
+        id: productId,
+        name: product.name,
+        description: product.description,
+        image: imageUrl,
+        points: product.points,
+        category: product.category,
+      })
+    );
+
+    if (isAlreadyFavorite) {
+      toast.success("Removed from favorites");
+      return;
+    }
+
+    toast.success("Added to favorites ❤️");
+
+    const existingCartItem = getCartItem(productId);
+    if (!existingCartItem) {
+      dispatch(
+        addToCart({
+          id: product._id,
+          name: product.name,
+          description: product.description,
+          image: imageUrl,
+          points: product.points,
+          quantity: 1,
+          category: product.category,
+        })
+      );
+      toast.success("Also added to your cart 🛒");
+    }
   };
 
   const handleAddToCart = async (product, e) => {
@@ -188,12 +214,12 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 flex gap-3">
                       <button
-                        onClick={(e) => toggleFavorite(productId, e)}
+                        onClick={(e) => handleToggleFavorite(product, e)}
                         className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                       >
                         <Heart
                           className={`w-5 h-5 ${
-                            favorites.has(productId)
+                            favoriteIds.includes(productId)
                               ? "fill-red-500 text-red-500"
                               : "text-gray-700"
                           }`}
@@ -211,12 +237,12 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
                   {/* Bottom Action Icons */}
                   <div className="absolute bottom-4 right-4 flex gap-2">
                     <button
-                      onClick={(e) => toggleFavorite(productId, e)}
+                      onClick={(e) => handleToggleFavorite(product, e)}
                       className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                     >
                       <Heart
                         className={`w-5 h-5 ${
-                          favorites.has(productId)
+                          favoriteIds.includes(productId)
                             ? "fill-red-500 text-red-500"
                             : "text-gray-700"
                         }`}
@@ -234,6 +260,13 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
                   {isInCart && (
                     <div className="absolute top-14 right-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
                       In Cart ({cartItem.quantity})
+                    </div>
+                  )}
+
+                  {/* Favorite Badge */}
+                  {favoriteIds.includes(productId) && (
+                    <div className="absolute top-3 left-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1">
+                      <Heart className="w-3 h-3 fill-current" /> Loved
                     </div>
                   )}
                 </div>
@@ -294,7 +327,7 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
                       ) : (
                         <>
                           <ShoppingCart className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
-                          Earn Points
+                          {favoriteIds.includes(productId) ? "In Favorites" : "Earn Points"}
                         </>
                       )}
                     </button>
