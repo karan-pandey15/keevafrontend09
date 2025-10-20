@@ -67,11 +67,11 @@ const ProductCraousel = () => {
  
 
   return (
-    <div className="min-h-screen   ">
+    <div className=" ">
       <Navbar /> 
  
       {products.length > 0 && (
-        <div className="mt-16 text-[#047F05]">
+        <div className=" ">
           <ProductCarousel
             products={products.slice(0, 10)} 
             title={selectedCategory ? `${selectedCategory} Collection` : "Trending Products"}

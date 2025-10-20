@@ -98,22 +98,23 @@ export default function CartPage() {
       <Toaster position="top-right" />
       <Navbar />
 
-      <div className="min-h-screen bg-white">
-        {/* Cart Sidebar Panel */}
-        <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white shadow-2xl z-50 flex flex-col">
+      <div className="min-h-screen bg-white flex flex-col">
+        {/* Cart Sidebar Panel - Full width on mobile, right sidebar on desktop */}
+        <div className="fixed right-0 top-16 h-full w-full sm:w-96 bg-white shadow-2xl z-50 flex flex-col overflow-hidden sm:border-l border-gray-200">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900">Shopping Cart</h2>
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+            <h2 className="text-xl text-[#047F05] sm:text-2xl font-bold ">Shopping Cart</h2>
             <button
               onClick={() => router.push("/")}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              title="Close cart"
             >
-              <X className="w-6 h-6 text-gray-600" />
+              <X className="w-6 h-6 text-[#047F05]" />
             </button>
           </div>
 
           {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6">
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">Your cart is empty</p>
@@ -128,7 +129,7 @@ export default function CartPage() {
                     <div className="flex gap-4">
                       {/* Product Image */}
                       <div className="flex-shrink-0">
-                        <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-gray-100">
                           <img
                             src={it.image}
                             alt={it.name}
@@ -140,7 +141,7 @@ export default function CartPage() {
                       {/* Product Details */}
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 pr-2">
+                          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2 pr-2">
                             {it.name}
                           </h3>
                           <button
@@ -152,7 +153,7 @@ export default function CartPage() {
                           </button>
                         </div>
 
-                        <div className="text-lg font-bold text-gray-900 mb-3">
+                        <div className="text-base sm:text-lg font-bold text-gray-900 mb-3">
                           ₹{it.points.toFixed(2)}
                         </div>
 
@@ -162,8 +163,10 @@ export default function CartPage() {
                             onClick={() =>
                               handleQtyChange(it.id, (it.quantity || 1) - 1)
                             }
-                            className="w-7 h-7 rounded bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors"
+                            className="w-7 h-7 rounded text-white flex items-center justify-center hover:opacity-90 transition-colors"
+                            style={{ backgroundColor: "#047F05" }}
                             disabled={it.quantity <= 1}
+                            title="Decrease quantity"
                           >
                             <Minus className="w-4 h-4" />
                           </button>
@@ -174,7 +177,9 @@ export default function CartPage() {
                             onClick={() =>
                               handleQtyChange(it.id, (it.quantity || 1) + 1)
                             }
-                            className="w-7 h-7 rounded bg-black text-white flex items-center justify-center hover:bg-gray-800 transition-colors"
+                            className="w-7 h-7 rounded text-white flex items-center justify-center hover:opacity-90 transition-colors"
+                            style={{ backgroundColor: "#047F05" }}
+                            title="Increase quantity"
                           >
                             <Plus className="w-4 h-4" />
                           </button>
@@ -185,47 +190,25 @@ export default function CartPage() {
                 ))}
               </div>
             )}
-          </div>
 
-          {/* You May Also Like Section */}
+              {/* Checkout Button - Visible on all screen sizes */}
           {items.length > 0 && (
-            <div className="border-t border-gray-200 p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">
-                You may also like
-              </h3>
-              <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600 text-center">
-                  Recommendations loading...
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Checkout Button */}
-          {items.length > 0 && (
-            <div className="border-t border-gray-200 p-6">
+            <div className="border-t border-gray-200 p-4 sm:p-6 bg-white  ">
               <button
                 onClick={handleCheckoutClick}
-                style={{ backgroundColor: "#008000" }}
-                className="w-full text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 transition-opacity uppercase tracking-wide"
+                style={{ backgroundColor: "#047F05" }}
+                className="w-full text-white py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-lg hover:opacity-90 transition-opacity uppercase tracking-wide shadow-lg"
               >
                 CHECK OUT
               </button>
             </div>
           )}
+          </div>
+
+         
         </div>
 
-        {/* Main Content Area - Push to left */}
-        <div className="mr-0 sm:mr-96 p-8">
-          <div className="max-w-4xl">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Continue Shopping
-            </h1>
-            <p className="text-gray-600">
-              Browse more products while your cart is ready
-            </p>
-          </div>
-        </div>
+   
       </div>
 
       {/* Checkout Confirmation Modal */}
@@ -238,12 +221,12 @@ export default function CartPage() {
               </div>
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-900 text-center mb-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-3">
               Confirm Checkout
             </h3>
-            <p className="text-gray-600 text-center mb-6">
+            <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
               Are you sure you want to proceed with checkout for{" "}
-              <span className="font-bold" style={{ color: "#008000" }}>
+              <span className="font-bold" style={{ color: "#047F05" }}>
                 ₹{totalPoints.toFixed(2)}
               </span>
               ?
@@ -251,20 +234,20 @@ export default function CartPage() {
 
             <div className="bg-gray-50 rounded-xl p-4 mb-6">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-600">Total Items:</span>
-                <span className="font-semibold">{items.length}</span>
+                <span className="text-xs sm:text-sm text-gray-600">Total Items:</span>
+                <span className="text-xs sm:text-sm font-semibold">{items.length}</span>
               </div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-600">Total Quantity:</span>
-                <span className="font-semibold">
+                <span className="text-xs sm:text-sm text-gray-600">Total Quantity:</span>
+                <span className="text-xs sm:text-sm font-semibold">
                   {items.reduce((sum, item) => sum + item.quantity, 0)}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Total Amount:</span>
+                <span className="text-xs sm:text-sm text-gray-600">Total Amount:</span>
                 <span
-                  className="font-bold text-xl"
-                  style={{ color: "#008000" }}
+                  className="font-bold text-lg sm:text-xl"
+                  style={{ color: "#047F05" }}
                 >
                   ₹{totalPoints.toFixed(2)}
                 </span>
@@ -275,7 +258,7 @@ export default function CartPage() {
               <button
                 onClick={handleCancelCheckout}
                 disabled={isProcessing}
-                className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="flex-1 px-4 sm:px-6 py-2 sm:py-3 border-2 border-gray-300 text-xs sm:text-sm text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 <X className="w-5 h-5" />
                 <span>Cancel</span>
@@ -283,8 +266,8 @@ export default function CartPage() {
               <button
                 onClick={handleConfirmCheckout}
                 disabled={isProcessing}
-                style={{ backgroundColor: "#008000" }}
-                className="flex-1 px-6 py-3 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                style={{ backgroundColor: "#047F05" }}
+                className="flex-1 px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm text-white rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               >
                 {isProcessing ? (
                   <>

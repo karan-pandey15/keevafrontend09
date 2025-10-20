@@ -8,6 +8,7 @@ import { useToast } from "../components/Toast";
 import axiosInstance from "../helper/axiosInstance";
 import Navbar from "../components/navbar/page";
 import { Search, X } from "lucide-react";
+import Footer from "../components/footer/page";
 
 const BACKEND_URL = "https://api.digiente.com";
 
@@ -360,6 +361,8 @@ const RistalMica = () => {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 };

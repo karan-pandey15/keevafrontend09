@@ -49,25 +49,8 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
 
     if (isAlreadyFavorite) {
       toast.success("Removed from favorites");
-      return;
-    }
-
-    toast.success("Added to favorites ❤️");
-
-    const existingCartItem = getCartItem(productId);
-    if (!existingCartItem) {
-      dispatch(
-        addToCart({
-          id: product._id,
-          name: product.name,
-          description: product.description,
-          image: imageUrl,
-          points: product.points,
-          quantity: 1,
-          category: product.category,
-        })
-      );
-      toast.success("Also added to your cart 🛒");
+    } else {
+      toast.success("Added to favorites ❤️");
     }
   };
 
@@ -147,10 +130,10 @@ const ProductCarousel = ({ products, title = "Trending Products" }) => {
   }
 
   return (
-    <div className="w-full   py-8 px-4 relative">
+    <div className="w-full  px-4 relative">
       {/* Section Header */}
    <div className="max-w-7xl mx-auto mb-6 text-center">
-  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+  <h2 className="text-2xl md:text-3xl font-bold text-[#047F05] mb-2">
     {title}
   </h2>
   <p className="text-gray-600 text-sm md:text-base">

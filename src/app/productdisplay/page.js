@@ -7,9 +7,11 @@ import { addToCart, updateQuantity, toggleFavorite, selectFavoriteIds } from "..
 import { useToast } from "../components/Toast";
 import axiosInstance from "../helper/axiosInstance"; 
 import { Search, X, Heart, ShoppingCart } from "lucide-react"; 
+import Navbar from "../components/navbar/page";
+import Footer from "../components/footer/page";
 const BACKEND_URL = "https://api.digiente.com";
 
-const AllProductDisplay = () => {
+const ProductDisplay = () => {
   const router = useRouter();
   const searchParams = typeof window !== "undefined" ? useSearchParams() : null;
   const dispatch = useDispatch();
@@ -167,6 +169,9 @@ const AllProductDisplay = () => {
   };
 
   return (
+   <>
+   <Navbar />
+     <div className="h-20 w-100" ></div>
     <div className="bg-white"> 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         
@@ -338,9 +343,13 @@ const AllProductDisplay = () => {
         )}
       </main>  
     </div>
+
+    <Footer />
+   
+   </>
   );
 };
 
 export const dynamic = "force-dynamic";
 
-export default AllProductDisplay;
+export default ProductDisplay;
